@@ -7,9 +7,9 @@ export class ProcessImageWithPromptHandler implements ICommandHandler<ProcessIma
   constructor(private readonly geminiService: GeminiService) {}
 
   async execute(command: ProcessImageWithPromptCommand): Promise<{ response: string }> {
-    const { imageFileName, prompt } = command;
+    const { imageFileName } = command;
 
-    const analysisResult = await this.geminiService.processExistingImageWithPrompt(imageFileName, prompt);
+    const analysisResult = await this.geminiService.processExistingImageWithPrompt(imageFileName);
 
     return { response: analysisResult };
   }

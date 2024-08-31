@@ -31,7 +31,6 @@ export class GeminiService {
 
   async processExistingImageWithPrompt(
     fileName: string,
-    prompt: string,
   ): Promise<string> {
     const filePath = path.join('public/uploads', fileName);
 
@@ -48,7 +47,7 @@ export class GeminiService {
       console.log('uploadResponse', uploadResponse);
 
       const fileUri = uploadResponse.file.uri;
-      const model = this.genAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
+      const model = this.genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
       const result = await model.generateContent([
         {
@@ -57,7 +56,7 @@ export class GeminiService {
             fileUri: uploadResponse.file.uri,
           },
         },
-        { text: prompt }, 
+        { text: 'Describe the image and reature the measure without the left zeros' }, 
       ]);
 
       return result.response.text();

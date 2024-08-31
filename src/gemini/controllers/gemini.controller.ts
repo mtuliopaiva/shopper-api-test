@@ -20,10 +20,9 @@ export class GeminiController {
   @Get('process-existing-image')
   async processExistingImage(
     @Query('fileName') fileName: string,
-    @Query('prompt') prompt: string, 
   ): Promise<any> {
     try {
-      const result = await this.geminiService.processExistingImageWithPrompt(fileName, prompt);
+      const result = await this.geminiService.processExistingImageWithPrompt(fileName);
       return { result };
     } catch (error) {
       throw new InternalServerErrorException(`Failed to process image: ${error.message}`);
