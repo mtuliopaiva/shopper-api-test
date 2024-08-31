@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
 import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
+import { ValidationPipe } from '@nestjs/common';
 
 
 dotenv.config();
@@ -28,7 +29,7 @@ async function bootstrap() {
 
   app.use(
     cors({
-      origin: 'http://localhost:5173',
+      origin: 'http://localhost',
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
       credentials: true,
     }),
@@ -45,7 +46,8 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/', app, document);
-
+  
+  app.useGlobalPipes(new ValidationPipe());
   await app.listen(3000);
 }
 bootstrap();

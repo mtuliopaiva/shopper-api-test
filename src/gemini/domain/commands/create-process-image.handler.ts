@@ -6,11 +6,9 @@ import { GeminiService } from 'src/gemini/services/gemini.service';
 export class ProcessImageWithPromptHandler implements ICommandHandler<ProcessImageWithPromptCommand> {
   constructor(private readonly geminiService: GeminiService) {}
 
-  async execute(command: ProcessImageWithPromptCommand): Promise<{ response: string }> {
-    const { imageFileName } = command;
+  async execute(command: ProcessImageWithPromptCommand): Promise<{ image_url: string, measure_value: number, measure_uuid: string }> {
+    const { imageFileName, customerCode, measureDatetime, measureType } = command;
 
-    const analysisResult = await this.geminiService.processExistingImageWithPrompt(imageFileName);
-
-    return { response: analysisResult };
+    return this.geminiService.processExistingImageWithPrompt(imageFileName, customerCode, measureDatetime, measureType);
   }
 }

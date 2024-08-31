@@ -5,8 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-    binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -15,11 +15,27 @@ datasource db {
 }
 
 model Users {
-  uuid            String    @id @default(uuid()) @db.Uuid
-  name            String    @db.VarChar(255)
+  uuid      String    @id @default(uuid()) @db.Uuid
+  name      String    @db.VarChar(255)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@map("users")
+}
+
+model Measures {
+  measureUuid     String    @id @default(uuid())
+  imageUrl        String
+  measureValue    Int
+  customerCode    String
+  measureDatetime DateTime
+  measureType     String
+  confirmedValue  Int?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   deletedAt       DateTime?
-  
-  @@map("users")
+
+  @@map("measures")
 }
+

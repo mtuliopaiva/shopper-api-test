@@ -9,6 +9,13 @@ services:
       POSTGRES_DB: shopperproject-api
     ports:
       - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   app:
     build: .
@@ -16,5 +23,11 @@ services:
       - '80:3000'
     environment:
       DATABASE_URL: postgresql://postgres:root@db:5432/shopperproject-api?schema=public
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
     depends_on:
       - db
+    volumes:
+      - ./public/uploads:/app/public/uploads 
+
+volumes:
+  pgdata:
